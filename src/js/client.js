@@ -1,12 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from "react"
+import ReactDOM from "react-dom"
+import { Provider } from "react-redux"
 
-class Layout extends React.Component {
-	render() {
-	    return (
-	      <h1>Hello</h1>
-	    );
-	}
-}
+import People from "./components/People"
+import store from "./store"
 
-ReactDOM.render(<Layout />, document.getElementById("app"));
+ReactDOM.render(<Provider store={store}>
+  <People />
+</Provider>, document.getElementById("app"));
