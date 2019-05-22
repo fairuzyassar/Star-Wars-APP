@@ -5,6 +5,7 @@ export default function reducer(state={
 		previous: null,
 		results: []
 	},
+	person : {},
 	fetching: false,
 	fetched: true,
 	error: null,
@@ -30,8 +31,59 @@ export default function reducer(state={
 				},
 			}
 		}
+		case "GET_PERSON_DATA": {
+      const { url } = action.payload
+      const listofpeople = [...state.people.results]
+      const peopleindex = listofpeople.findIndex(person => person.url === url)
+      const person = listofpeople[peopleindex];
+
+      return {
+        ...state,
+        person: person,
+      }
+    }
+
+		case "GET_PLANET_DATA_FULFILLED":{
+			return {...state,
+				person: {
+					...state.person,
+					homeworld: action.payload
+				}
+			}
+		}
+		case "GET_FILMS_DATA_FULFILLED":{
+			return {...state,
+				person: {
+					...state.person,
+					films: action.payload
+				}
+			}
+		}
+
+		case "GET_SPECIES_DATA_FULFILLED":{
+			return {...state,
+				person: {
+					...state.person,
+					species: action.payload
+				}
+			}
+		}
+		case "GET_VEHICLES_DATA_FULFILLED":{
+			return {...state,
+				person: {
+					...state.person,
+					vehicles: action.payload
+				}
+			}
+		}
+		case "GET_STARSHIPS_DATA_FULFILLED":{
+			return {...state,
+				person: {
+					...state.person,
+					starships: action.payload
+				}
+			}
+		}
 	}
-
 	return state
-
 }
