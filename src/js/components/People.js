@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { fetchData } from "../actions/peopleActions"
 import { getPersonDetailData } from "../actions/peopleActions"
 import { fetchPlanetData, fetchListData  } from "../actions/peopleActions"
+import PersonDetail from "./PersonDetail"
 
 @connect((store) => {
   return {
@@ -14,10 +15,6 @@ import { fetchPlanetData, fetchListData  } from "../actions/peopleActions"
 })
 
 export default class People extends React.Component {
-	// componentWillMount(){
-	// 	this.props.dispatch(fetchData("https://swapi.co/api/people/?page=1"))
-	// }
-
 	fetchPrevNextData(url, e){
 		this.props.dispatch(fetchData(url))
 	}
@@ -27,23 +24,20 @@ export default class People extends React.Component {
   }
 
   getPersonDetailData(individual, e){
+    const searchquery = "?url=" + individual.url
+    this.props.history.push({pathname: "/person", search:searchquery})
+    
     this.props.dispatch(getPersonDetailData(individual.url))
     this.props.dispatch(fetchPlanetData(individual.homeworld))
     this.props.dispatch(fetchListData(individual.films, "FILMS"))
     this.props.dispatch(fetchListData(individual.species, "SPECIES"))
     this.props.dispatch(fetchListData(individual.vehicles, "VEHICLES"))
     this.props.dispatch(fetchListData(individual.starships, "STARSHIPS"))
-    const url = "/people?url=" + individual.url
-    console.log(this.props)
-    this.props.history.push("/person")
   }
 
 
 	render(){
 		const { people, person } = this.props
-
-    console.log(this.props)
-
 		if(!people.results.length){
 			return <button onClick={this.fetchPrevNextData("https://swapi.co/api/people/?page=1")}>load people</button>
 		}

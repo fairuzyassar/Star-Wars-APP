@@ -5,7 +5,6 @@ export function fetchData(url){
 		dispatch({type: "FETCH_DATA"});
 	    axios.get(url)
 	      .then((response) => {
-	      	console.log(response)
 	        dispatch({type: "FETCH_DATA_FULFILLED", payload: response.data})
 	      })
 	      .catch((err) => {
@@ -25,10 +24,8 @@ export function getPersonDetailData(url) {
 
 export function fetchPlanetData(url){
 	return function (dispatch) {
-		dispatch({type: "FETCH_DATA"});
 	    axios.get(url)
 	      .then((response) => {
-	      	console.log(response)
 	        dispatch({type: "GET_PLANET_DATA_FULFILLED", payload: response.data})
 	      })
 	      .catch((err) => {
@@ -39,26 +36,27 @@ export function fetchPlanetData(url){
 
 export function fetchListData(listurl, category){
 	return function (dispatch) {
-		let listdata = []
-		dispatch({type: "FETCH_DATA"});
-		console.log(typeof(listurl))
-		if(listurl.length){
-			listurl.map(url => {
-				axios.get(url)
-		      .then((response) => {
-		        listdata.push(response.data)
-		      })
-			})
-		}
+		console.log(listurl)
+		const listdata = listurl.map(url => {
+					return axios.get(url)
+			      .then((response) => {
+							return response.data
+			      })
+				})
 
-		if(category == "FILMS"){
-				dispatch({type: "GET_FILMS_DATA_FULFILLED", payload: listdata})
-		} else if (category == "SPECIES") {
-				dispatch({type: "GET_SPECIES_DATA_FULFILLED", payload: listdata})
-		} else if (category == "VEHICLES"){
-				dispatch({type: "GET_VEHICLES_DATA_FULFILLED", payload: listdata})
-		} else if (category == "STARSHIPS") {
-				dispatch({type: "GET_STARSHIPS_DATA_FULFILLED", payload: listdata})
-		}
+		Promise.all(listdata).then(data => {
+			if(category == "FILMS"){
+					dispatch({type: "GET_FILMS_DATA_FULFILLED", payload: data})
+			} else if (category == "SPECIES") {
+					dispatch({type: "GET_SPECIES_DATA_FULFILLED", payload: data})
+			} else if (category == "VEHICLES"){
+					dispatch({type: "GET_VEHICLES_DATA_FULFILLED", payload: data})
+			} else if (category == "STARSHIPS") {
+					dispatch({type: "GET_STARSHIPS_DATA_FULFILLED", payload: data})
+			}
+		})
+
+
+
   }
 }
