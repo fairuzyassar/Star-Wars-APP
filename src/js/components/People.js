@@ -1,10 +1,10 @@
 import React from "react"
 import { connect } from "react-redux"
 
-import { Redirect } from 'react-router-dom';
 import { fetchData } from "../actions/peopleActions"
 import { getPersonDetailData } from "../actions/peopleActions"
 import { fetchPlanetData, fetchListData  } from "../actions/peopleActions"
+
 import PersonDetail from "./PersonDetail"
 
 @connect((store) => {
@@ -19,14 +19,10 @@ export default class People extends React.Component {
 		this.props.dispatch(fetchData(url))
 	}
 
-  getPersonData(url, e){
-    this.props.dispatch(getPersonData(url))
-  }
-
   getPersonDetailData(individual, e){
     const searchquery = "?url=" + individual.url
     this.props.history.push({pathname: "/person", search:searchquery})
-    
+
     this.props.dispatch(getPersonDetailData(individual.url))
     this.props.dispatch(fetchPlanetData(individual.homeworld))
     this.props.dispatch(fetchListData(individual.films, "FILMS"))
@@ -47,20 +43,18 @@ export default class People extends React.Component {
     return (
       <div class="container">
         <div class="row">
-          <div class="col col-lg-6">
-            <div class="card" style={{ width: '30rem'}}>
-              <div class="card-body">
-                <div class="list-group">
-                  <button type="button" class="list-group-item list-group-item-primary list-group-item-action active">Stars Wars Cast</button>
-                  {listofpeople}
-                </div>
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination justify-content-center">
-                    <li class="page-item"><button type="button" class="btn btn-outline-primary" onClick={this.fetchPrevNextData.bind(this, people.previous)}>&laquo;</button></li>
-                    <li class="page-item"><button type="button" class="btn btn-outline-primary" onClick={this.fetchPrevNextData.bind(this, people.next)}>&raquo;</button></li>
-                  </ul>
-                </nav>
+          <div class="card" style={{ width: '25rem'}}>
+            <div class="card-body">
+              <div class="list-group">
+                <button type="button" class="list-group-item list-group-item-primary list-group-item-action active">Stars Wars Cast</button>
+                {listofpeople}
               </div>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item"><button type="button" class="btn btn-outline-primary" onClick={this.fetchPrevNextData.bind(this, people.previous)}>&laquo;</button></li>
+                  <li class="page-item"><button type="button" class="btn btn-outline-primary" onClick={this.fetchPrevNextData.bind(this, people.next)}>&raquo;</button></li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>

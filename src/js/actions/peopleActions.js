@@ -22,6 +22,18 @@ export function getPersonDetailData(url) {
   }
 }
 
+export function fetchPersonDetailData(url){
+	return function (dispatch) {
+	    axios.get(url)
+	      .then((response) => {
+	        dispatch({type: "FETCH_PERSON_DATA_FULFILLED", payload: response.data})
+	      })
+	      .catch((err) => {
+	        dispatch({type: "FETCH_DATA_REJECTED", payload: err})
+	      })
+  	}
+}
+
 export function fetchPlanetData(url){
 	return function (dispatch) {
 	    axios.get(url)
@@ -55,8 +67,5 @@ export function fetchListData(listurl, category){
 					dispatch({type: "GET_STARSHIPS_DATA_FULFILLED", payload: data})
 			}
 		})
-
-
-
   }
 }

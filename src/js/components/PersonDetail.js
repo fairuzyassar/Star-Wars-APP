@@ -1,10 +1,5 @@
 import React from "react"
 import { connect } from "react-redux"
-import queryString from "query-string"
-
-
-import { getPersonDetailData } from "../actions/peopleActions"
-import { fetchPlanetData, fetchListData, getPersonalData  } from "../actions/peopleActions"
 
 
 @connect((store) => {
@@ -14,6 +9,10 @@ import { fetchPlanetData, fetchListData, getPersonalData  } from "../actions/peo
 })
 
 export default class PersonDetail extends React.Component {
+
+  backToHome(){
+    this.props.history.push({pathname: "/"})
+  }
 
   render(){
     const { person } = this.props
@@ -84,6 +83,7 @@ export default class PersonDetail extends React.Component {
             </ul>
           </div>
         </div>
+        <button type="button"  onClick={this.backToHome.bind(this)} class="btn btn-primary">Back</button>
       </div>)
   }
 }
